@@ -12,11 +12,11 @@ class Grafo:
         return H[n] # puede retornar una lista con el calculo de la heuristica para cada estado
 
     def primero_profundidad(self, nodo_inicio, nodo_final):
-       #inserte si codigo aqui
+       #valen leon
         return None
         
     def primero_anchura(self, nodo_inicio, nodo_final):
-       #inserte si codigo aqui
+        # falla :V
         return None
     
     def a_estrella(self, nodo_inicio, nodo_final):
