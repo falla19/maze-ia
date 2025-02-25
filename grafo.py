@@ -12,7 +12,29 @@ class Grafo:
         return H[n] # puede retornar una lista con el calculo de la heuristica para cada estado
 
     def primero_profundidad(self, nodo_inicio, nodo_final):
-       #valen leon
+        visited = []
+        stack = [nodo_inicio]
+        parent={}
+        while stack:
+
+            s=stack.pop()
+            if s == nodo_final:
+                path=[]
+                while s in parent:
+                   path.append(s)
+                   s = parent[s]
+                path.append(nodo_inicio)
+                path.reverse()
+                return path  # Retorna el camino encontrado
+            
+            if s not in visited:
+                visited.append(s)
+
+                if s in self.lista_adyacencia:
+                   for vecino in self.obtener_vecinos(s):
+                    if vecino not in visited:
+                       parent[vecino] = s
+                       stack.append(vecino)
         return None
         
     def primero_anchura(self, nodo_inicio, nodo_final):

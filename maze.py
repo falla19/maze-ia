@@ -1,5 +1,6 @@
+import matplotlib.pyplot as plt
+import numpy as np
 import ast
-
 #Abre archivo de texto y lee la primera linea para obtener las dimensiones y 
 # luego lee el resto para  convertirlo en matriz 
 def read_maze(file):
@@ -10,7 +11,7 @@ def read_maze(file):
 
         # Leer el resto del archivo y convertir cada línea en una lista de enteros
         # Cada línea representa una fila del laberinto
-        maze = [ast.literal_eval(line.strip()) for line in f]
+        maze = [list(map(int, ast.literal_eval(line.strip()))) for line in f]  # ✅ Conversión a int
 
     return dim, maze
 
@@ -44,3 +45,43 @@ def maze_to_graph(maze):
                 graph[(r, c)] = neighbors  # Guardar los vecinos en el grafo
 
     return graph # Retornar el grafo representado como lista de adyacencia
+
+
+def search_nodes(maze):
+    for i in range(len(maze)):
+        for j in range(len(maze[0])):
+            if maze[i][j] == 2:
+                source = (i, j)
+            if maze[i][j] == 3:
+                end = (i, j)
+    return source, end
+
+def draw_maze(maze, path, titulo ="Laberinto"):
+    # Verificar si `maze` es un archivo y leerlo si es necesario
+    if isinstance(maze, str):  
+        _, maze = read_maze(maze)
+    # Convertir la matriz en un array de NumPy
+    maze_array = np.array(maze)
+    
+    # Crear la figura y los ejes
+    fig, ax = plt.subplots()
+    
+    # Definir el mapa de colores
+    cmap = plt.cm.colors.ListedColormap(['white', 'black', 'yellow', 'red'])  
+    bounds = [-0.5, 0.5, 1.5, 2.5, 3.5]
+    norm = plt.cm.colors.BoundaryNorm(bounds, cmap.N)
+    
+    # Dibujar el laberinto con imshow()
+    ax.imshow(maze_array, cmap=cmap, norm=norm)
+    
+    # Pinta el camino de la solución
+    for (i, j) in path:
+        ax.plot(j,i, 'o', color='green')
+
+  
+    ax.set_title(titulo)
+
+    # Mostrar la imagen
+    plt.show()
+
+
