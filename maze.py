@@ -1,5 +1,5 @@
-import matplotlib.pyplot as plt
-import numpy as np
+#import matplotlib.pyplot as plt
+#import numpy as np
 import ast
 #Abre archivo de texto y lee la primera linea para obtener las dimensiones y 
 # luego lee el resto para  convertirlo en matriz 
@@ -56,6 +56,7 @@ def search_nodes(maze):
                 end = (i, j)
     return source, end
 
+'''
 def draw_maze(maze, path, titulo ="Laberinto"):
     # Verificar si `maze` es un archivo y leerlo si es necesario
     if isinstance(maze, str):  
@@ -84,4 +85,4 @@ def draw_maze(maze, path, titulo ="Laberinto"):
     # Mostrar la imagen
     plt.show()
 
-
+'''
