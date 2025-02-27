@@ -20,7 +20,7 @@ def solve_maze():
     #start, goal = search_nodes(matrix)
     #path = graph.primero_profundidad(start, goal) # Buscar el camino entre los nodos de inicio
     
-    tipo_recorrido = "BFS" # Tipo de recorrido
+    '''tipo_recorrido = "BFS" # Tipo de recorrido
     if tipo_recorrido == "DFS":
         path = graph.primero_profundidad(start, goal)
     elif tipo_recorrido == "BFS":
@@ -29,6 +29,12 @@ def solve_maze():
         path = graph.a_estrella(start, goal)
     else:
         path = None
+    '''
+    print('DFS')
+    print(graph.primero_profundidad(start, goal))
+
+    print('BFS')
+    print(graph.primero_profundidad(start, goal))
 
     #if path is not None:
     #    draw_maze(matrix, path, f"Laberinto - {tipo_recorrido}")
