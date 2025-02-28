@@ -12,7 +12,7 @@ print(row)
 """
 # Función que carga el laberinto desde un archivo, lo convierte en un grafo
 def solve_maze():
-    dim, matrix = read_maze("data/laberinto.txt")  # Leer el laberinto
+    dim, matrix = read_maze("data/laberinto3.txt")  # Leer el laberinto
     adj_list, start, goal = maze_to_adj_list(matrix) # Convertir el laberinto en una lista de adyacencia 
     graph = Grafo(adj_list) # Crear un objeto Grafo con la lista de adyacencia
     
