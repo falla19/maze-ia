@@ -48,21 +48,20 @@ def maze_to_graph(maze):
 
     return graph # Retornar el grafo representado como lista de adyacencia
 '''
-
-def search_nodes(maze):
-    for i in range(len(maze)):
-        for j in range(len(maze[0])):
-            if maze[i][j] == 2:
-                source = (i, j)
-            if maze[i][j] == 3:
-                end = (i, j)
+'''
+# Busca las posiciones de inicio y fin en el laberinto
+def search_nodes(maze): # Buscar los nodos de inicio y objetivo
+    for i in range(len(maze)): # Recorrer cada fila del laberinto
+        for j in range(len(maze[0])): # Recorrer cada columna del laberinto
+            if maze[i][j] == 2: # Buscar la posición de inicio
+                source = (i, j) # Guardar la posición de inicio
+            if maze[i][j] == 3: # Buscar la posición de fin
+                end = (i, j) # Guardar la posición de fin
     return source, end
+'''
 
-
-def draw_maze(maze, path, titulo ="Laberinto"):
-    # Verificar si `maze` es un archivo y leerlo si es necesario
-    if isinstance(maze, str):  
-        _, maze = read_maze(maze)
+def draw_maze(maze, path, titulo ="Laberinto"): # Dibujar el laberinto
+   
     # Convertir la matriz en un array de NumPy
     maze_array = np.array(maze)
     
@@ -71,18 +70,18 @@ def draw_maze(maze, path, titulo ="Laberinto"):
     
     # Definir el mapa de colores
     cmap = plt.cm.colors.ListedColormap(['white', 'black', 'yellow', 'red'])  
-    bounds = [-0.5, 0.5, 1.5, 2.5, 3.5]
-    norm = plt.cm.colors.BoundaryNorm(bounds, cmap.N)
+    bounds = [-0.5, 0.5, 1.5, 2.5, 3.5] # Definir los límites de los colores
+    norm = plt.cm.colors.BoundaryNorm(bounds, cmap.N) # Normalizar los colores para los límites definidos 
     
     # Dibujar el laberinto con imshow()
-    ax.imshow(maze_array, cmap=cmap, norm=norm)
+    ax.imshow(maze_array, cmap=cmap, norm=norm) 
     
     # Pinta el camino de la solución
-    for (i, j) in path:
-        ax.plot(j,i, 'o', color='green')
+    for (i, j) in path: # Recorrer cada posición en el camino
+        ax.plot(j,i, 'o', color='green') # Pintar el camino en verde
 
   
-    ax.set_title(titulo)
+    ax.set_title(titulo) # Establecer el título del gráfico
 
     # Mostrar la imagen
     plt.show()

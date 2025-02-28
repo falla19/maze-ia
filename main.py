@@ -20,19 +20,17 @@ def solve_maze():
     #start, goal = search_nodes(matrix) # Buscar los nodos de inicio y objetivo
     #path = graph.primero_profundidad(start, goal) # Buscar el camino entre los nodos de inicio
     
-    caminos = {
-        "DFS": graph.primero_profundidad(start, goal),
-        "BFS": graph.primero_anchura(start, goal),
-        "A*": graph.a_estrella(start, goal),
+    caminos = { # Diccionario con los métodos de búsqueda y sus caminos
+        "DFS": graph.primero_profundidad(start, goal), # Buscar el camino entre los nodos de inicio y objetivo
+        "BFS": graph.primero_anchura(start, goal), # Buscar el camino más corto entre los nodos de inicio y objetivo
+        "A*": graph.a_estrella(start, goal), # Buscar el camino más corto entre los nodos de inicio y objetivo
     }
     
    # Imprimir y visualizar cada camino
-    for metodo, path in caminos.items():
-        print(f'{metodo}: {path}')
-        if path:
-            draw_maze(matrix, path, f"Laberinto - {metodo}")
-
-    #graph.primero_profundidad(start, goal)
+    for metodo, path in caminos.items(): # Recorrer el diccionario de caminos
+        print(f'{metodo}: {path}') # Imprimir el método y el camino
+        if path: # Si se encontró un camino
+            draw_maze(matrix, path, f"Laberinto - {metodo}") # Dibujar el laberinto con el camino
 
 if __name__ == "__main__":
     solve_maze()
