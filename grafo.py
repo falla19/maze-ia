@@ -1,17 +1,25 @@
 from collections import deque
+import heapq
 
 class Grafo:
 
     def __init__(self, lista_adyacencia):
-        self.lista_adyacencia = lista_adyacencia
+        self.lista_adyacencia = lista_adyacencia # Diccionario que representa la lista de adyacencia
 
     def obtener_vecinos(self, v):
-        return self.lista_adyacencia[v]
+        return self.lista_adyacencia[v]  # Devuelve los vecinos de un nodo 'v' utilizando la lista de adyacencia
 
     # funcion heuristica
-    def h(self, n):
-        #inserte su codigo aqui
-        return H[n] # puede retornar una lista con el calculo de la heuristica para cada estado
+    def h(self, nodo_actual, nodo_final):
+        '''# Asegurar que los nodos sean tuplas con coordenadas
+        if not isinstance(nodo_actual, tuple) or not isinstance(nodo_final, tuple):
+            raise ValueError(f"Los nodos deben ser tuplas (fila, columna), pero se recibieron: {nodo_actual}, {nodo_final}")
+        '''
+        # Calcula y devuelve la heurística basada en la distancia Manhattan
+        # La distancia Manhattan es la suma de las diferencias absolutas de las coordenadas
+        #return abs(nodo_actual[0] - nodo_objetivo[0]) + abs(nodo_actual[1] - nodo_objetivo[1])
+        #return distance.chebyshev(nodo_actual, nodo_objetivo)
+        return max(abs(a - b) for a, b in zip(nodo_actual, nodo_final))
 
     def primero_profundidad(self, nodo_inicio, nodo_final):
         """
@@ -87,8 +95,32 @@ class Grafo:
 
     
     def a_estrella(self, nodo_inicio, nodo_final):
-       #inserte si codigo aqui
-        return None
+        """
+        Implementa el algoritmo de búsqueda A* para encontrar un camino en el grafo.
+
+        param nodo_inicio: Nodo desde donde se inicia la búsqueda.
+        param nodo_final: Nodo objetivo a alcanzar.
+        return: Lista con el camino desde nodo_inicio hasta nodo_final si se encuentra, de lo contrario None.
+        """
+        open_set = []  # Lista que actúa como una cola de prioridad para los nodos por explorar
+        heapq.heappush(open_set, (0, nodo_inicio, [nodo_inicio]))  # Inserta el nodo inicial en el open set con prioridad 0
+        costos = {nodo_inicio: 0}  # Diccionario para almacenar los costos acumulados para llegar a cada nodo
+
+        while open_set: # Mientras el open set tenga elementos
+            _, actual, camino = heapq.heappop(open_set)  # Extrae el nodo con la menor prioridad (costo + heurística)
+
+            if actual == nodo_final:  # Si se encuentra el nodo objetivo, retorna el camino completo
+                return camino
+
+            for vecino in self.obtener_vecinos(actual):  # Itera sobre los vecinos del nodo actual
+                costo=1 # Costo de moverse a un vecino
+                nuevo_costo = costos[actual] + costo  # Calcula el costo acumulado para llegar al vecino
+                if vecino not in costos or nuevo_costo < costos[vecino]:  # Si se encuentra un camino más barato, se actualiza
+                    costos[vecino] = nuevo_costo  # Actualiza el costo del camino más barato al vecino
+                    prioridad = nuevo_costo + self.h(vecino, nodo_final)  # Calcula la prioridad del vecino para el open set
+                    heapq.heappush(open_set, (prioridad, vecino, camino + [vecino]))  # Agrega el vecino al open set con su prioridad
+
+        return None 
 
     
 def maze_to_adj_list(maze):
