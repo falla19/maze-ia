@@ -1,6 +1,8 @@
-#import matplotlib.pyplot as plt
-#import numpy as np
+import matplotlib.pyplot as plt
+import numpy as np
 import ast
+
+from matplotlib import pyplot as plt
 #Abre archivo de texto y lee la primera linea para obtener las dimensiones y 
 # luego lee el resto para  convertirlo en matriz 
 def read_maze(file):
@@ -15,7 +17,7 @@ def read_maze(file):
 
     return dim, maze
 
-
+'''
 # Convierte la matriz del laberinto en un grafo donde cada celda transitable (no es una pared) se convierte en un nodo.
 # Define conexiones entre celdas adyacentes si no hay paredes.
 def maze_to_graph(maze):
@@ -45,7 +47,7 @@ def maze_to_graph(maze):
                 graph[(r, c)] = neighbors  # Guardar los vecinos en el grafo
 
     return graph # Retornar el grafo representado como lista de adyacencia
-
+'''
 
 def search_nodes(maze):
     for i in range(len(maze)):
@@ -56,7 +58,7 @@ def search_nodes(maze):
                 end = (i, j)
     return source, end
 
-'''
+
 def draw_maze(maze, path, titulo ="Laberinto"):
     # Verificar si `maze` es un archivo y leerlo si es necesario
     if isinstance(maze, str):  
@@ -85,4 +87,3 @@ def draw_maze(maze, path, titulo ="Laberinto"):
     # Mostrar la imagen
     plt.show()
 
-'''

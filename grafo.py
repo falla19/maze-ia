@@ -14,29 +14,36 @@ class Grafo:
         return H[n] # puede retornar una lista con el calculo de la heuristica para cada estado
 
     def primero_profundidad(self, nodo_inicio, nodo_final):
-        visited = []
-        stack = [nodo_inicio]
-        parent={}
-        while stack:
+        """
+        Implementa el algoritmo de búsqueda en profundidad para encontrar un camino en el grafo.
+    
+        param nodo_inicio: Nodo desde donde se inicia la búsqueda.
+        param nodo_final: Nodo objetivo a alcanzar.
+        return: Lista con el camino desde nodo_inicio hasta nodo_final si se encuentra, de lo contrario None.
+        """
+        visited = [] # Lista para almacenar los nodos visitados
+        stack = [nodo_inicio] # Pila para controlar la exploración de nodos
+        parent={} # Diccionario para almacenar el nodo padre de cada nodo visitado
+        while stack: # Mientras la pila tenga elementos
 
-            s=stack.pop()
-            if s == nodo_final:
-                path=[]
-                while s in parent:
-                   path.append(s)
-                   s = parent[s]
-                path.append(nodo_inicio)
-                path.reverse()
+            s=stack.pop() # Extrae el último nodo de la pila (LIFO)
+            if s == nodo_final: # Se encontró el nodo objetivo
+                path=[] # Lista para almacenar el camino
+                while s in parent: # Reconstrucción del camino desde el nodo objetivo hasta el inicio
+                   path.append(s) # Agrega el nodo actual al camino
+                   s = parent[s] # Se mueve al nodo padre
+                path.append(nodo_inicio) # Agrega el nodo inicial al camino
+                path.reverse() # Se invierte el camino para mostrarlo en orden correcto
                 return path  # Retorna el camino encontrado
             
-            if s not in visited:
-                visited.append(s)
+            if s not in visited: # Verifica que el nodo no haya sido visitado
+                visited.append(s) # Marca el nodo como visitado
 
-                if s in self.lista_adyacencia:
-                   for vecino in self.obtener_vecinos(s):
-                    if vecino not in visited:
-                       parent[vecino] = s
-                       stack.append(vecino)
+                if s in self.lista_adyacencia: # Verifica que el nodo tenga vecinos
+                   for vecino in self.obtener_vecinos(s): # Agrega los vecinos del nodo a la pila
+                    if vecino not in visited: # Verifica que el vecino no haya sido visitado
+                       parent[vecino] = s # Guarda el nodo actual como padre del vecino
+                       stack.append(vecino) # Agrega el vecino a la pila
         return None
         
     def primero_anchura(self, start, goal):
@@ -85,32 +92,33 @@ class Grafo:
     
 def maze_to_adj_list(maze):
     """
-    Converts a maze matrix into an adjacency list.
-    
-    :param maze: 2D list representing the maze.
-    :return: Dictionary where keys are (row, col) positions and values are lists of adjacent positions.
+    Convierte una matriz de laberinto en una lista de adyacencia.
+
+    param maze: Lista que representa el laberinto.
+    return: Diccionario donde las claves son posiciones (fila, columna)
+             y los valores son listas de posiciones adyacentes accesibles.
     """
-    rows, cols = len(maze), len(maze[0])
-    adj_list = {}
-    start, goal = None, None
+    rows, cols = len(maze), len(maze[0]) # Obtiene el número de filas y columnas
+    adj_list = {} # Diccionario que representará el grafo
+    start, goal = None, None # Inicializa las posiciones de inicio y objetivo
 
     # Possible moves: up, down, left, right
     directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
-    for r in range(rows):
-        for c in range(cols):
-            if maze[r][c] != 1: # Ignore walls
-
-                if maze[r][c] == 2:
+    for r in range(rows): # Recorre cada posición del laberinto
+        for c in range(cols): # Recorre cada posición del laberinto
+            if maze[r][c] != 1: # Verifica que la posición no sea una pared
+                # Identificar la posición inicial (2) y la meta (3)
+                if maze[r][c] == 2: 
                     start = (r, c)  # Identify start position
-                elif maze[r][c] == 3:
+                elif maze[r][c] == 3: 
                     goal = (r, c)  # Identify goal position
 
-                neighbors = []
-                for dr, dc in directions:
-                    nr, nc = r + dr, c + dc
-                    if 0 <= nr < rows and 0 <= nc < cols and maze[nr][nc] != 1:
-                        neighbors.append((nr, nc))
+                neighbors = [] # Lista de vecinos accesibles
+                for dr, dc in directions: # Evaluar las cuatro direcciones posibles
+                    nr, nc = r + dr, c + dc # Nueva posición
+                    if 0 <= nr < rows and 0 <= nc < cols and maze[nr][nc] != 1: # Verificar límites y no sea pared
+                        neighbors.append((nr, nc)) # Agregar vecino válido
                 adj_list[(r, c)] = neighbors  # Store valid moves
 
     return adj_list, start, goal
